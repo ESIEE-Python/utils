@@ -3,21 +3,16 @@ import json
 import requests
 
 # Set your Supabase credentials here or use environment variables
-SUPABASE_URL = 'https://antsdkjhthaihqhvnvfw.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFudHNka2podGhhaWhxaHZudmZ3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MDY3NzUzNCwiZXhwIjoyMDY2MjUzNTM0fQ.t2KOyVtkmjgFrCX4pVQQnJSydZG5APAQB2L4ddzbVSk'             # <-- Replace with your Supabase service role key
-SUPABASE_TABLE = 'marks'                           # <-- Replace with your table name
+SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://antsdkjhthaihqhvnvfw.supabase.co')
+SUPABASE_KEY = os.environ.get('SUPABASE_KEY', 'your_service_role_key_here')
+SUPABASE_TABLE = os.environ.get('SUPABASE_TABLE', 'marks')                           
 
 
-# zvX49KM7NiHWBia8A9Fs
-
-# SUPABASE_URL = https://antsdkjhthaihqhvnvfw.supabase.co
-
-# SUPABASE_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFudHNka2podGhhaWhxaHZudmZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2Nzc1MzQsImV4cCI6MjA2NjI1MzUzNH0.tgO2bAz3jaqgALB6vC6uX3vtt49L7D6HyJTvkndFVQo
-
-# SUPABASE_SERVICE_ROLE = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFudHNka2podGhhaWhxaHZudmZ3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MDY3NzUzNCwiZXhwIjoyMDY2MjUzNTM0fQ.t2KOyVtkmjgFrCX4pVQQnJSydZG5APAQB2L4ddzbVSk
-
-# SUPABASE_TABLE = "marks"
-
+# INSTRUCTIONS:
+# 1. Get your Supabase URL and keys from: https://app.supabase.com/project/YOUR_PROJECT/settings/api
+# 2. Replace the placeholder values above
+# 3. NEVER commit real keys to git - use environment variables instead
+#
 
 
 
