@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Répertoire contenant tous tes repos
-BASE_DIR="./"
+BASE_DIR="../repos/"
 COMMIT_MSG="update"
 
 # Fonction d'aide
@@ -41,12 +41,16 @@ esac
 
 echo "🚀 Action: $ACTION"
 
+# Variable pour suivre s'il y a des changements
+HAS_CHANGES=false
+
 # Aller dans le répertoire parent
 cd "$BASE_DIR" || exit 1
 
 # Boucler sur chaque sous-dossier contenant un dépôt Git
 for repo in */; do
     if [ -d "$repo/.git" ]; then
+        echo
         echo "📂 Traitement du dépôt : $repo"
         cd "$repo" || continue
 
@@ -58,14 +62,23 @@ for repo in */; do
                     git commit -m "$COMMIT_MSG"
                     git push
                     echo "✅ Ajouté, commité et poussé : $repo"
+                    HAS_CHANGES=true
                 else
-                    echo "✅ Rien à committer dans $repo"
+                    echo "⚪ Rien à committer dans $repo"
                 fi
                 ;;
             "pull")
                 echo "⬇️ Récupération en cours..."
+                # Capturer l'état avant le pull
+                BEFORE_COMMIT=$(git rev-parse HEAD)
                 if git pull; then
-                    echo "✅ Mis à jour avec succès : $repo"
+                    AFTER_COMMIT=$(git rev-parse HEAD)
+                    if [ "$BEFORE_COMMIT" != "$AFTER_COMMIT" ]; then
+                        echo "✅ Changements récupérés dans $repo"
+                        HAS_CHANGES=true
+                    else
+                        echo "⚪ Aucun changement à récupérer dans $repo"
+                    fi
                 else
                     echo "❌ Erreur lors de la récupération : $repo"
                 fi
@@ -75,3 +88,25 @@ for repo in */; do
         cd ..
     fi
 done
+
+# Message final basé sur s'il y a eu des changements
+echo ""
+if [ "$HAS_CHANGES" = true ]; then
+    case "$ACTION" in
+        "push")
+            echo "🎉 Opération terminée ! Des changements ont été poussés vers les dépôts distants."
+            ;;
+        "pull")
+            echo "🎉 Opération terminée ! Des changements ont été récupérés depuis les dépôts distants."
+            ;;
+    esac
+else
+    case "$ACTION" in
+        "push")
+            echo "😴 Aucun changement à pousser. Tous les dépôts sont déjà à jour."
+            ;;
+        "pull")
+            echo "😴 Aucun changement à récupérer. Tous les dépôts sont déjà à jour."
+            ;;
+    esac
+fi
